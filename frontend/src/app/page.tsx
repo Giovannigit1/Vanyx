@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Scissors, Calendar, MapPin, Phone, Clock, ArrowRight, Star, ShieldCheck, TrendingUp, Play } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import InstagramReel from "@/components/InstagramReel";
 
 const InstagramIcon = ({ className }: { className?: string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -24,25 +23,35 @@ const services = [
   { name: "Ondulación Permanente", duration: "3 hrs", price: "$60.000", desc: "Ondulación permanente (Desde los 60.000)" },
 ];
 
-const bentoImages = [
+const carouselImages = [
+  "/assets/instagram/post-1.jpg",
   "/assets/instagram/post-3.jpg",
   "/assets/instagram/post-6.jpg",
   "/assets/instagram/post-7.jpg",
 ];
 
-const reels = [
-  "https://www.instagram.com/reel/Dbv-CHLJOBi/",
-  "https://www.instagram.com/reel/DaZLYTrgn_J/",
-  "https://www.instagram.com/reel/DcUWssFpyOs/"
+const localVideos = [
+  "/assets/videos/video-1.mp4",
+  "/assets/videos/video-2.mp4",
+  "/assets/videos/video-3.mp4"
 ];
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
+  const [currentImg, setCurrentImg] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Carousel timer
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImg((prev) => (prev + 1) % carouselImages.length);
+    }, 4000);
+    return () => clearInterval(timer);
   }, []);
 
   return (
@@ -66,32 +75,39 @@ export default function Home() {
         </div>
       </header>
 
-      {/* HERO SECTION: BENTO GRID DESIGN */}
-      <section className="relative min-h-[95vh] flex items-center pt-28 pb-20 overflow-hidden">
-        {/* Dynamic Abstract Background instead of generic video */}
-        <div className="absolute inset-0 z-0">
-          <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#c0272d]/10 blur-[120px] rounded-full animate-pulse" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[60%] bg-[#c0272d]/5 blur-[150px] rounded-full" />
-          <div className="absolute inset-0 bg-[#0a0908] opacity-90" style={{ backgroundImage: 'radial-gradient(#39362f 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+      {/* HERO SECTION WITH AUTHENTIC VIDEO BACKGROUND & CAROUSEL */}
+      <section className="relative min-h-[90vh] flex items-center pt-28 pb-24 overflow-hidden">
+        {/* Authentic Background Video (Darkened) */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <video 
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            className="absolute top-1/2 left-1/2 w-[120%] h-[120%] object-cover -translate-x-1/2 -translate-y-1/2 opacity-25 blur-sm"
+          >
+            <source src="/assets/videos/video-2.mp4" type="video/mp4" />
+          </video>
+          {/* Gradients to ensure text readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0908] via-[#0a0908]/90 to-[#0a0908]/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0908] via-transparent to-[#0a0908]/50" />
         </div>
 
-        <div className="wrap relative z-10 grid lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-16 items-center w-full">
-          {/* Hero Content */}
+        <div className="wrap relative z-10 grid md:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-center w-full">
           <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
             <div className="flex items-center gap-3 mb-6">
-              <span className="w-12 h-[2px] bg-[#c0272d]"></span>
-              <span className="text-[#c0272d] font-semibold text-xs md:text-sm tracking-[0.2em] uppercase">Estilo · Actitud · Perfección</span>
+              <span className="w-10 h-[1px] bg-[#c0272d]"></span>
+              <span className="text-[#c0272d] font-medium text-sm tracking-widest uppercase">Barbería · San Bernardo</span>
             </div>
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-['Oswald'] uppercase leading-[1.05] mb-6 tracking-tight">
-              Tu mejor <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-[#8a8880]">versión</span>
-              <span className="text-[#c0272d]">.</span>
+            <h1 className="text-5xl md:text-7xl lg:text-[5rem] font-['Oswald'] uppercase leading-[1.05] mb-6">
+              Corte limpio.<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-[#8a8880]">Actitud blvck & white.</span>
             </h1>
-            <p className="text-[#c9c7bd] text-lg sm:text-xl max-w-lg mb-10 leading-relaxed font-light">
+            <p className="text-[#c9c7bd] text-lg max-w-md mb-10 leading-relaxed font-light">
               Expertos en cortes precisos y perfilado de barba. Disfruta de un ambiente premium en San Bernardo diseñado exclusivamente para ti.
             </p>
             
@@ -100,45 +116,43 @@ export default function Home() {
                 <Calendar size={18} className="group-hover:animate-bounce" /> Agendar Cita
               </Link>
               <a href="https://wa.me/56959246529" target="_blank" rel="noreferrer" className="border border-[#39362f] bg-black/40 backdrop-blur-md px-8 py-4 font-medium hover:border-[#ECEAE2] hover:bg-white/5 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3">
-                <Phone size={18} /> Contacto
+                <Phone size={18} /> WhatsApp
               </a>
-            </div>
-            
-            <div className="mt-12 flex items-center gap-4 text-sm text-[#8a8880] font-['Oswald'] uppercase tracking-wider border-t border-[#39362f]/50 pt-6">
-              <span>Síguenos</span>
-              <div className="w-8 h-[1px] bg-[#39362f]"></div>
-              <a href="https://instagram.com/blvckwhite.cl" className="hover:text-white transition-colors flex items-center gap-1"><InstagramIcon className="w-4 h-4" /> Instagram</a>
             </div>
           </motion.div>
 
-          {/* Bento Grid Gallery */}
+          {/* Animated Carousel Banner (Restored) */}
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="grid grid-cols-2 grid-rows-2 gap-3 h-[500px] sm:h-[600px] lg:h-[650px] w-full"
+            className="relative aspect-[4/5] max-w-md mx-auto w-full border border-[#39362f]/50 bg-[#141210] overflow-hidden group shadow-2xl rounded-sm"
           >
-            {/* Large primary image */}
-            <div className="col-span-1 row-span-2 relative rounded-xl overflow-hidden group">
-              <img src="/assets/instagram/post-1.jpg" alt="Barbería interior" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-              <div className="absolute bottom-4 left-4 font-['Oswald'] uppercase tracking-widest text-sm font-semibold flex items-center gap-2">
-                <Scissors className="w-4 h-4 text-[#c0272d]" /> Corte Premium
+            <AnimatePresence mode="wait">
+              <motion.img 
+                key={currentImg}
+                initial={{ opacity: 0, scale: 1.1 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1.5, ease: "easeOut" }}
+                src={carouselImages[currentImg]}
+                alt="BlvckWhite Trabajo" 
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            </AnimatePresence>
+            
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+            
+            {/* Carousel Indicators */}
+            <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
+              <div className="bg-black/40 backdrop-blur-md px-4 py-2 border border-white/10 text-xs flex items-center gap-2 rounded-sm shadow-xl">
+                <div className="w-1.5 h-1.5 bg-[#c0272d] rounded-full animate-pulse" />
+                @blvckwhite.cl
               </div>
-            </div>
-            {/* Top right secondary image */}
-            <div className="col-span-1 row-span-1 relative rounded-xl overflow-hidden group">
-              <img src={bentoImages[0]} alt="Perfilado de barba" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
-            </div>
-            {/* Bottom right split */}
-            <div className="col-span-1 row-span-1 grid grid-cols-2 gap-3">
-              <div className="relative rounded-xl overflow-hidden group">
-                 <img src={bentoImages[1]} alt="Detalle corte" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              </div>
-              <div className="relative rounded-xl overflow-hidden bg-[#c0272d] flex flex-col items-center justify-center p-4 text-center group cursor-pointer hover:bg-[#a01e23] transition-colors" onClick={() => document.getElementById('reels')?.scrollIntoView({ behavior: 'smooth' })}>
-                 <Play className="w-8 h-8 text-white mb-2 group-hover:scale-110 transition-transform" />
-                 <span className="font-['Oswald'] uppercase text-xs font-semibold tracking-wider">Ver<br/>Reels</span>
+              <div className="flex gap-2">
+                {carouselImages.map((_, i) => (
+                  <div key={i} className={`h-1 transition-all duration-500 rounded-full ${i === currentImg ? 'w-6 bg-[#c0272d]' : 'w-2 bg-white/30'}`} />
+                ))}
               </div>
             </div>
           </motion.div>
@@ -169,7 +183,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* INSTAGRAM REELS SECTION (NEW) */}
+      {/* NATIVE VIDEOS SECTION */}
       <section id="reels" className="py-24 sm:py-32 relative overflow-hidden">
         <div className="wrap">
            <motion.div 
@@ -180,11 +194,11 @@ export default function Home() {
           >
             <span className="font-['Oswald'] text-[#c0272d] tracking-widest mb-4 block text-sm">EN MOVIMIENTO</span>
             <h2 className="text-4xl md:text-5xl uppercase">Nuestros Trabajos</h2>
-            <p className="text-[#8a8880] mt-4 max-w-xl mx-auto">Conoce el detalle y la dedicación en cada uno de nuestros cortes a través de nuestros reels destacados.</p>
+            <p className="text-[#8a8880] mt-4 max-w-xl mx-auto">Conoce el detalle y la dedicación en cada uno de nuestros cortes a través de nuestros videos destacados.</p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {reels.map((url, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
+            {localVideos.map((videoSrc, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
@@ -193,8 +207,17 @@ export default function Home() {
                 transition={{ delay: i * 0.2 }}
                 className="w-full flex justify-center"
               >
-                <div className="w-full max-w-[350px]">
-                  <InstagramReel url={url} />
+                <div className="relative w-full max-w-[350px] aspect-[9/16] bg-[#141210] rounded-xl overflow-hidden border border-[#39362f] shadow-xl group cursor-pointer hover:border-[#c0272d]/50 transition-colors duration-300">
+                  <video 
+                    src={videoSrc}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  {/* Overlay gradient for styling */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0908] via-transparent to-transparent opacity-60 pointer-events-none" />
                 </div>
               </motion.div>
             ))}
