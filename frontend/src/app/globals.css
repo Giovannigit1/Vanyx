@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Work+Sans:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #141210;
+  --ink-panel: #1d1a17;
+  --paper: #ECEAE2;
+  --paper-dim: #c9c7bd;
+  --steel: #8a8880;
+  --line: #39362f;
+  --red: #c0272d;
+  --radius: 2px;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--ink);
+  color: var(--paper);
+  font-family: 'Work Sans', sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .display {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.05;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Base styles and utilities */
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 15px 30px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: 1px solid var(--paper);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-solid {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.btn-solid:hover {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--paper);
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  color: var(--paper);
+  background: transparent;
+}
+
+.btn-ghost:hover {
+  background: var(--paper);
+  color: var(--ink);
+  transform: translateY(-2px);
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 52px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 26px;
+}
+
+.section-head h2 {
+  font-size: clamp(1.9rem, 3.4vw, 2.7rem);
+  text-transform: uppercase;
+  color: var(--paper);
+}
+
+.section-num {
+  font-family: 'Oswald', sans-serif;
+  color: var(--steel);
+  font-size: 0.95rem;
+}
+
+section {
+  padding: 110px 0;
+}
