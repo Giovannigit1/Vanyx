@@ -128,7 +128,7 @@ export default function EstadisticasPage() {
                   <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#6B7280', fontSize: 12}} dy={10} />
                   <YAxis axisLine={false} tickLine={false} tick={{fill: '#6B7280', fontSize: 12}} tickFormatter={(value) => `$${value/1000}k`} />
                   <RechartsTooltip 
-                    formatter={(value: number) => [formatCurrency(value), "Ingresos"]}
+                    formatter={(value: any) => [formatCurrency(value as number), "Ingresos"]}
                     contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
                   />
                   <Line 
@@ -167,7 +167,7 @@ export default function EstadisticasPage() {
                     ))}
                   </Pie>
                   <RechartsTooltip 
-                    formatter={(value: number) => [`${value}`, "Demandas"]}
+                    formatter={(value: any) => [`${value}`, "Demandas"]}
                     contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
                   />
                   <Legend verticalAlign="bottom" height={36} iconType="circle" wrapperStyle={{ fontSize: '12px', fontWeight: '500' }}/>
